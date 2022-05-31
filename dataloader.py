@@ -65,7 +65,7 @@ class TextSummarizationDataset(torch.utils.data.Dataset):
             self, src_word2idx, tgt_word2idx,
             src_insts=None, tgt_insts=None):
 
-        assert src_insts
+        # assert src_insts
         assert not tgt_insts or (len(src_insts) == len(tgt_insts))
 
         src_idx2word = {idx:word for word, idx in src_word2idx.items()}

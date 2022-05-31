@@ -1,0 +1,11 @@
+Flask==2.1.2
+MeCab==0.996.3
+numpy==1.22.3
+pandas==1.4.2
+pyknp==0.6.1
+pytorch_pretrained_bert==0.6.2
+six==1.16.0
+tensorboardX==2.5
+tensorflow==2.9.1
+torch==1.11.0
+tqdm==4.64.0

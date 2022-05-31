@@ -164,9 +164,9 @@ class FullTokenizer(object):
   def __init__(self, vocab_file, do_lower_case=True):
     self.vocab = load_vocab(vocab_file)
     self.inv_vocab = {v: k for k, v in self.vocab.items()}
-    #self.tokenizer = BasicTokenizer(do_lower_case=do_lower_case)
+    self.tokenizer = BasicTokenizer(do_lower_case=do_lower_case)
     #self.tokenizer = JumanTokenizer()
-    self.tokenizer = MeCabTokenizer()
+    # self.tokenizer = MeCabTokenizer()
     self.wordpiece_tokenizer = WordpieceTokenizer(vocab=self.vocab)
 
   def tokenize(self, text):
@@ -299,45 +299,45 @@ class BasicTokenizer(object):
         return "".join(output)
 
 
-class JumanTokenizer(BasicTokenizer):
-    def __init__(self):
-        from pyknp import Juman
+# class JumanTokenizer(BasicTokenizer):
+#     def __init__(self):
+#         from pyknp import Juman
 
-        self.do_lower_case = False
-        self._jumanpp = Juman()
+#         self.do_lower_case = False
+#         self._jumanpp = Juman()
 
-    def tokenize(self, text):
-        """Tokenizes a piece of text with Juman."""
+#     def tokenize(self, text):
+#         """Tokenizes a piece of text with Juman."""
 
-        text = convert_to_unicode(text)
-        text = self._clean_text(text)
-
-
-        juman_result = self._jumanpp.analysis(text.replace(' ', ''))
-        split_tokens = []
-        for mrph in juman_result.mrph_list():
-            split_tokens.extend(self._run_split_on_punc(mrph.midasi))
-
-        output_tokens = whitespace_tokenize(" ".join(split_tokens))
-        return output_tokens
+#         text = convert_to_unicode(text)
+#         text = self._clean_text(text)
 
 
-class MeCabTokenizer(BasicTokenizer):
-  def __init__(self):
-    import MeCab
+#         juman_result = self._jumanpp.analysis(text.replace(' ', ''))
+#         split_tokens = []
+#         for mrph in juman_result.mrph_list():
+#             split_tokens.extend(self._run_split_on_punc(mrph.midasi))
 
-    self.do_lower_case = False
-    self._mecab = MeCab.Tagger('-Owakati')
+#         output_tokens = whitespace_tokenize(" ".join(split_tokens))
+#         return output_tokens
 
-  def tokenize(self, text):
-    """Tokenizes a piece of text with Juman."""
 
-    text = convert_to_unicode(text)
-    text = self._clean_text(text)
+# class MeCabTokenizer(BasicTokenizer):
+#   def __init__(self):
+#     import MeCab
 
-    mecab_result = self._mecab.parse(text)
-    output_tokens = mecab_result.split(' ')
-    return output_tokens
+#     self.do_lower_case = False
+#     self._mecab = MeCab.Tagger('-Owakati')
+
+#   def tokenize(self, text):
+#     """Tokenizes a piece of text with Juman."""
+
+#     text = convert_to_unicode(text)
+#     text = self._clean_text(text)
+
+#     mecab_result = self._mecab.parse(text)
+#     output_tokens = mecab_result.split(' ')
+#     return output_tokens
 
 
 

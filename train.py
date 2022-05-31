@@ -17,6 +17,11 @@ from transformer.Optim import ScheduledOptim
 import tensorboardX as tbx
 from models import AbstractiveTextSummarizationUsingBert
 
+import gc
+
+gc.collect()
+torch.cuda.empty_cache()
+
 
 def cal_performance(pred, x, gold, smoothing=False):
     ''' Apply label smoothing if needed '''

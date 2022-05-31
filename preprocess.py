@@ -4,6 +4,7 @@ import sqlite3
 import argparse
 from tqdm import tqdm
 import pandas.io.sql as psql
+import pandas as pd
 import transformer.Constants as Constants
 import torch
 #import MeCab
@@ -20,7 +21,7 @@ def build_vocab(path_to_file):
 
 
 def get_content_summary_from_df(df):
-    content = df['content'].values.tolist()
+    content = df['text'].values.tolist()
     summary = df['summary'].values.tolist()
 
     return content, summary
@@ -67,17 +68,19 @@ def convert_num_half_to_full(text):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-vocab', required=True)
-    parser.add_argument('-data', required=True)
+    # parser.add_argument('-data', required=True)
     parser.add_argument('-save_data', required=True)
     parser.add_argument('--max_word_seq_len',  required=True, type=int)
     opt = parser.parse_args()
     opt.max_token_seq_len = opt.max_word_seq_len
 
     tokenizer = FullTokenizer(opt.vocab)
-    connection = sqlite3.connect(opt.data)
-    cursor = connection.cursor()
-    df = psql.read_sql("SELECT * FROM Article;", connection)
-    print('Finished reading db file.')
+    # connection = sqlite3.connect(opt.data)
+    # cursor = connection.cursor()
+    # df = psql.read_sql("SELECT * FROM Article;", connection)
+    path = r"C:\Users\palan\Downloads\archive\billsum_v4_1\us_train_data_final_OFFICIAL.jsonl"
+    df = pd.read_json(path, lines=True)
+    print('Finished reading input file.')
     text2token, token2text = build_vocab(opt.vocab)
     print('Finished building vocab.')
     content, summary = get_content_summary_from_df(df)
